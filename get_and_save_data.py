@@ -28,8 +28,8 @@ def fetch_fred_series(series_dict, fred_api_key):
 def get_and_save_data(fred_api_key, output_file):
     fred_series = {
         "FEDFUNDS": "Federal Funds Rate",
-        "PCEPILFE": "Core PCE Inflation",
-        "PCEPI": "Overall PCE Inflation",
+        "PCEPILFE": "Core PCE",
+        "PCEPI": "Overall PCE",
         "UNRATE": "Unemployment Rate",
         "GDPC1": "Real GDP",
         "M2SL": "M2 Money Supply",
@@ -38,7 +38,7 @@ def get_and_save_data(fred_api_key, output_file):
         "DCOILWTICO": "WTI Crude Oil Price",
         "UMCSENT": "Consumer Sentiment",
         # "DTWEXBGS": "USD Index", # data starts only from Jan 2006
-        "IRSTCB01JPM156N": "BoJ Rate"
+        "IRSTCB01JPM156N": "BoJ Immediate Rate"
     }
     fred_data = fetch_fred_series(fred_series, fred_api_key)
     fred_data.to_csv(output_file)
