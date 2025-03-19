@@ -14,6 +14,6 @@ def predict_future(model, prediction_set, device):
             pred_value = pred.cpu().numpy()[0, 0]
             predictions.append(pred_value)
 
-    predictions = prediction_set.scaler_y.inverse_transform(np.array(predictions).reshape(-1, 1))
+    predictions = prediction_set.scaler_y.inverse_transform(np.array(predictions).reshape(-1, 1)).flatten()
     
-    return predictions.flatten()
+    return predictions

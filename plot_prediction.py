@@ -1,5 +1,6 @@
 # plot_prediction.py
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 def plot_prediction(full_df, predictions):
@@ -14,3 +15,7 @@ def plot_prediction(full_df, predictions):
     plt.legend()
     plt.savefig("prediction_plot.png")
     plt.close()
+
+    historical_data = full_df["Federal Funds Rate"].values[-len(predictions):]
+    errors_ratio = np.abs(predictions - historical_data) / historical_data
+    print(f"Mean Error Ratio: {np.mean(errors_ratio * 100):.2f}%")

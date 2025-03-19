@@ -1,5 +1,6 @@
 # main.py
 from datetime import datetime
+import numpy as np
 import os
 import sys
 import torch
@@ -8,21 +9,24 @@ from load_and_prepare_data import load_and_prepare_data
 from load_or_create_model import load_or_create_model
 from plot_prediction import plot_prediction
 from predict_future import predict_future
-from save_model import save_model
+# from save_model import save_model
 from train_model import train_model
 
 def main(file_path, model_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     time_steps = 12
 
-    full_df, training_set, prediction_set = load_and_prepare_data(file_path, time_steps, "2023-12-31")
-    model = load_or_create_model(model_path, device, training_set)
-
-    train_model(model, training_set, device, 0.2, 32, 50, 1)
-    train_model(model, training_set, device, 0.2, 32, 50, 2) # Resample training/testing data before 2023 for the next 50 epochs to predict more accurately
-    save_model(model, training_set.scaler(), model_path)
-
-    predictions = predict_future(model, prediction_set, device)
+    full_df, training_set, prediction_set = load_and_prepare_data(file_path, time_steps, "2023-12-31") # Change the date to the last date of training data
+    
+    predictions = []
+    n_models = 10
+    for _ in range(n_models):
+        model = load_or_create_model(model_path, device, training_set)
+        train_model(model, training_set, device, 0.2, 32, 50, 1)
+        train_model(model, training_set, device, 0.2, 32, 50, 2) # Resample training/testing data before 2023 for the next 50 epochs to predict more accurately
+        # save_model(model, training_set.scaler(), model_path) no need to save the model since training is fast
+        predictions.append(predict_future(model, prediction_set, device))
+    predictions = np.mean(predictions, axis=0)
     plot_prediction(full_df, predictions)
 
 if __name__ == "__main__":
