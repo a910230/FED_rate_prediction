@@ -43,7 +43,6 @@ To run this project locally, follow these steps:
    Ensure you have Python 3.x installed. Then, install the required libraries:
    ```bash
    pip install -r requirements.txt
-*(Note: If a `requirements.txt` file does not yet exist, common dependencies might include `pandas`, `numpy`, `matplotlib`, `scikit-learn`, and `fredapi`.)*
 
 3. **Set up FRED API (optional)**:
    If using the FRED API, obtain an API key from [FRED](https://fred.stlouisfed.org/docs/api/api_key.html) and save it in `fred_api_key` in the project folder (no extension.)
